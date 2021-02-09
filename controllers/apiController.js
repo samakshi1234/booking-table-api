@@ -40,7 +40,7 @@ exports.updateBooking=function(req ,res)
      else {
        //console.log("valid data");
        //return;
-       BookingModel.updateBooking(updatingReqData, (err, booking) => {
+       BookingModel.updateBooking(req.params.id,updatingReqData, (err, booking) => {
          if (err) {
            res.json({ status: false, message: "error in updating booking" });
          } else {
@@ -65,17 +65,18 @@ exports.deleteBooking = function (req, res) {
      else {
        //console.log("valid data");
        //return;
-       BookingModel.deleteBooking(deletingReqData, (err, booking) => {
-         if (err) {
-           res.json({ status: false, message: "error in deleting booking" });
-         } else {
-           res.json({
-             status: true,
-             message: "booking deleted sucessfully",
-             data: booking,
-           });
+       BookingModel.deleteBooking(req.params.id,(err, booking) => {
+           if (err) {
+             res.json({ status: false, message: "error in deleting booking" });
+           } else {
+             res.json({
+               status: true,
+               message: "booking deleted sucessfully",
+               data: booking,
+             });
+           }
          }
-       });
+       );
      }
 };
 

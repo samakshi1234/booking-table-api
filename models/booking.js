@@ -47,9 +47,9 @@ Booking.createBooking=(Bookingdata,result)=>{
        );       
 }
 
-Booking.deleteBooking=(data,result)=>{
+Booking.deleteBooking=(id,result)=>{
   //querying database to delete booking from specified table
-  dbConn.query("DELETE FROM table_booking WHERE first_name=? and last_name=? and booking_time=?",[data.first_name,data.last_name,data.booking_time],(err,res)=>{
+  dbConn.query("DELETE FROM table_booking WHERE id=?",[id],(err,res)=>{
     if (err) {
       console.log("error while deleting data");
       result(null, { status: false, message: err });
@@ -58,16 +58,23 @@ Booking.deleteBooking=(data,result)=>{
       result(null, {
         status: true,
         message: "Booking deleted sucessfully",
-        deleteId: res.id,
+        deleteId:id,
       });
     }
   })
 }
 
-Booking.updateBooking = (data, result) => {
+Booking.updateBooking = (id,Bookingdata, result) => {
   dbConn.query(
-    "UPDATE table_booking SET booking_time=? WHERE first_name=? and last_name=? ",
-    [data.booking_time,data.first_name,data.last_name],
+    "UPDATE table_booking SET first_name=?, last_name=?, phone=?, party_size=?, booking_time=? WHERE id=?",
+    [
+      Bookingdata.first_name,
+      Bookingdata.last_name,
+      Bookingdata.phone,
+      Bookingdata.party_size,
+      Bookingdata.booking_time,
+      id
+    ],
     (err, res) => {
       if (err) {
         console.log("error while updating data");
@@ -77,7 +84,7 @@ Booking.updateBooking = (data, result) => {
         result(null, {
           status: true,
           message: "Booking updated sucessfully!",
-          updateId: res.id,
+          updateId: id,
         });
       }
     }
